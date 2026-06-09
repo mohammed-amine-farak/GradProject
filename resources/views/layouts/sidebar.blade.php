@@ -1,189 +1,131 @@
-
-<aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-        <div class="logo-icon">🎓</div>
-        <div class="logo-text">
-            <h2>GradProject</h2>
-            <p>Student Platform</p>
+{{-- resources/views/layouts/sidebar.blade.php --}}
+<aside id="sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-transform duration-300 -translate-x-full lg:translate-x-0">
+    <!-- Sidebar Header -->
+    <div class="p-6 border-b border-gray-200 dark:border-gray-700 flex items-center gap-3">
+        <div class="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-700 rounded-xl flex items-center justify-center text-white font-bold text-xl">
+            🎓
+        </div>
+        <div>
+            <h2 class="text-lg font-bold text-gray-900 dark:text-white">GradProject</h2>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Student Platform</p>
         </div>
     </div>
-    
-    <nav class="nav-menu">
-        <!-- Student Navigation (default example) -->
-        <a href="#" class="nav-item active">
-            <i class="fas fa-th-large"></i>
+
+    <!-- Navigation Menu -->
+    <nav class="p-4">
+        <a href="{{ route('student.dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 dark:text-gray-400 font-medium transition-all duration-200 mb-1 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:text-indigo-600 dark:hover:text-indigo-400 {{ request()->routeIs('student.dashboard') ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400' : '' }}">
+            <i class="fas fa-th-large w-5 text-lg"></i>
             <span>Dashboard</span>
         </a>
-        <a href="{{route('student.problems')}}" class="nav-item">
-            <i class="fas fa-search"></i>
+
+        <a href="{{ route('student.problems') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 dark:text-gray-400 font-medium transition-all duration-200 mb-1 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:text-indigo-600 dark:hover:text-indigo-400 {{ request()->routeIs('student.problems') ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400' : '' }}">
+            <i class="fas fa-search w-5 text-lg"></i>
             <span>Browse Problems</span>
         </a>
-        <a href="{{route('student.projects')}}" class="nav-item">
-            <i class="fas fa-folder-open"></i>
+
+        <a href="{{ route('student.projects') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 dark:text-gray-400 font-medium transition-all duration-200 mb-1 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:text-indigo-600 dark:hover:text-indigo-400 {{ request()->routeIs('student.projects') ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400' : '' }}">
+            <i class="fas fa-folder-open w-5 text-lg"></i>
             <span>My Projects</span>
         </a>
-        <a href="{{route('student.portfolio')}}" class="nav-item">
-            <i class="fas fa-trophy"></i>
+
+        <a href="{{ route('student.portfolio') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 dark:text-gray-400 font-medium transition-all duration-200 mb-1 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:text-indigo-600 dark:hover:text-indigo-400 {{ request()->routeIs('student.portfolio') ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400' : '' }}">
+            <i class="fas fa-trophy w-5 text-lg"></i>
             <span>Portfolio</span>
         </a>
-        
+
+        <!-- Divider -->
+        <div class="my-6 border-t border-gray-200 dark:border-gray-700"></div>
+
         <!-- Settings & Logout -->
-        <div style="margin-top: 40px;">
-            <a href="#" class="nav-item">
-                <i class="fas fa-cog"></i>
-                <span>Settings</span>
-            </a>
-            <button class="nav-item logout-btn" style="width: 100%; background: none; border: none; cursor: pointer;">
-                <i class="fas fa-sign-out-alt"></i>
+        <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 dark:text-gray-400 font-medium transition-all duration-200 mb-1 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:text-indigo-600 dark:hover:text-indigo-400">
+            <i class="fas fa-cog w-5 text-lg"></i>
+            <span>Settings</span>
+        </a>
+
+        <form method="POST" action="">
+            @csrf
+            <button type="submit" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 dark:text-gray-400 font-medium transition-all duration-200 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400">
+                <i class="fas fa-sign-out-alt w-5 text-lg"></i>
                 <span>Logout</span>
             </button>
-        </div>
+        </form>
     </nav>
 </aside>
 
+<!-- Mobile Overlay -->
+<div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-30 opacity-0 invisible transition-all duration-300 lg:hidden"></div>
+
 <style>
-    /* Sidebar Styles - Pure UI */
-    .sidebar {
-        width: 280px;
-        background: var(--bg-secondary);
-        border-right: 1px solid var(--border);
-        position: fixed;
-        height: 100vh;
-        overflow-y: auto;
-        transition: all 0.3s ease;
-        z-index: 100;
-    }
-
-    .sidebar-header {
-        padding: 24px;
-        border-bottom: 1px solid var(--border);
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-
-    .logo-icon {
-        width: 40px;
-        height: 40px;
-        background: linear-gradient(135deg, var(--primary), #7209b7);
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 20px;
-        font-weight: bold;
-        color: white;
-    }
-
-    .logo-text h2 {
-        font-size: 18px;
-        font-weight: 700;
-        color: var(--text-primary);
-        margin: 0;
-    }
-
-    .logo-text p {
-        font-size: 11px;
-        color: var(--text-secondary);
-        margin: 2px 0 0 0;
-    }
-
-    .nav-menu {
-        padding: 20px 16px;
-    }
-
-    .nav-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 12px 16px;
-        border-radius: 12px;
-        color: var(--text-secondary);
-        font-weight: 500;
-        transition: all 0.2s;
-        margin-bottom: 4px;
-        cursor: pointer;
-        text-decoration: none;
-        font-size: 14px;
-    }
-
-    .nav-item:hover {
-        background: var(--primary-light);
-        color: var(--primary);
-    }
-
-    .nav-item.active {
-        background: var(--primary-light);
-        color: var(--primary);
-    }
-
-    .nav-item i {
-        width: 20px;
-        font-size: 18px;
-    }
-
-    /* Logout button specific */
-    .logout-btn {
-        margin-top: 8px;
-    }
-
-    /* Scrollbar */
-    .sidebar::-webkit-scrollbar {
+    /* Custom scrollbar for sidebar */
+    #sidebar::-webkit-scrollbar {
         width: 4px;
     }
 
-    .sidebar::-webkit-scrollbar-track {
-        background: var(--border);
+    #sidebar::-webkit-scrollbar-track {
+        background: #e2e8f0;
         border-radius: 4px;
     }
 
-    .sidebar::-webkit-scrollbar-thumb {
-        background: var(--primary);
+    #sidebar::-webkit-scrollbar-thumb {
+        background: #6366f1;
         border-radius: 4px;
     }
 
-    /* CSS Variables */
-    :root {
-        --bg-secondary: #ffffff;
-        --border: #e2e8f0;
-        --text-primary: #1a1a2e;
-        --text-secondary: #64748b;
-        --primary-light: #e8ecff;
-        --primary: #4361ee;
+    .dark #sidebar::-webkit-scrollbar-track {
+        background: #334155;
     }
 
-    [data-theme="dark"] {
-        --bg-secondary: #1e293b;
-        --border: #334155;
-        --text-primary: #f8fafc;
-        --text-secondary: #94a3b8;
-        --primary-light: #2d3a5e;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-        .sidebar {
-            transform: translateX(-100%);
-            position: fixed;
-        }
-        
-        .sidebar.open {
-            transform: translateX(0);
-        }
+    .dark #sidebar::-webkit-scrollbar-thumb {
+        background: #818cf8;
     }
 </style>
 
 <script>
-    // Optional: Theme toggle handling (if needed)
     document.addEventListener('DOMContentLoaded', function() {
-        // Mobile sidebar toggle
         const sidebar = document.getElementById('sidebar');
-        const toggleBtn = document.getElementById('sidebarToggle');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
         
-        if(toggleBtn && sidebar) {
-            toggleBtn.addEventListener('click', function() {
-                sidebar.classList.toggle('open');
+        // Toggle sidebar on mobile
+        if (sidebarToggle && sidebar) {
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('translate-x-0');
+                sidebar.classList.toggle('-translate-x-full');
+                
+                if (sidebarOverlay) {
+                    sidebarOverlay.classList.toggle('opacity-0');
+                    sidebarOverlay.classList.toggle('invisible');
+                    sidebarOverlay.classList.toggle('opacity-100');
+                    sidebarOverlay.classList.toggle('visible');
+                }
             });
         }
+        
+        // Close sidebar when clicking overlay
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener('click', function() {
+                sidebar.classList.add('-translate-x-full');
+                sidebar.classList.remove('translate-x-0');
+                sidebarOverlay.classList.add('opacity-0', 'invisible');
+                sidebarOverlay.classList.remove('opacity-100', 'visible');
+            });
+        }
+        
+        // Close sidebar on window resize (if open on mobile)
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 1024) {
+                sidebar.classList.remove('-translate-x-full');
+                sidebar.classList.add('translate-x-0');
+                if (sidebarOverlay) {
+                    sidebarOverlay.classList.add('opacity-0', 'invisible');
+                    sidebarOverlay.classList.remove('opacity-100', 'visible');
+                }
+            } else {
+                if (!sidebar.classList.contains('translate-x-0')) {
+                    sidebar.classList.add('-translate-x-full');
+                    sidebar.classList.remove('translate-x-0');
+                }
+            }
+        });
     });
 </script>

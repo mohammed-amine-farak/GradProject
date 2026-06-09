@@ -5,291 +5,192 @@
 @section('page_title', 'Student Dashboard')
 
 @section('content')
+<div class="space-y-8">
     <!-- Stats Cards -->
-    <div class="stats-grid">
-        <x-stat-card 
-            icon="fa-check-circle" 
-            value="8" 
-            label="Completed Projects" 
-            change="↑ +2 this semester" 
-            :delay="0.1" 
-        />
-        <x-stat-card 
-            icon="fa-star" 
-            value="4.8" 
-            label="Average Rating" 
-            change="↑ +0.3 from last month" 
-            :delay="0.2" 
-        />
-        <x-stat-card 
-            icon="fa-clock" 
-            value="124" 
-            label="Hours Worked" 
-            change="↑ +18 this month" 
-            :delay="0.3" 
-        />
-        <x-stat-card 
-            icon="fa-trophy" 
-            value="1,250" 
-            label="Trust Points" 
-            change="Top 5% of students" 
-            :delay="0.4" 
-        />
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Card 1 -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 hover:shadow-lg transition-all duration-300 animate-fade-in-up" style="animation-delay: 0.1s">
+            <div class="flex justify-between items-start mb-4">
+                <div class="w-12 h-12 bg-indigo-50 dark:bg-indigo-900/30 rounded-xl flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+                    <i class="fas fa-check-circle text-xl"></i>
+                </div>
+            </div>
+            <div class="text-3xl font-bold text-gray-900 dark:text-white mb-1">8</div>
+            <div class="text-sm text-gray-500 dark:text-gray-400 mb-2">Completed Projects</div>
+            <div class="text-xs text-green-600 dark:text-green-400">
+                <i class="fas fa-arrow-up"></i> +2 this semester
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 hover:shadow-lg transition-all duration-300 animate-fade-in-up" style="animation-delay: 0.2s">
+            <div class="flex justify-between items-start mb-4">
+                <div class="w-12 h-12 bg-indigo-50 dark:bg-indigo-900/30 rounded-xl flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+                    <i class="fas fa-star text-xl"></i>
+                </div>
+            </div>
+            <div class="text-3xl font-bold text-gray-900 dark:text-white mb-1">4.8</div>
+            <div class="text-sm text-gray-500 dark:text-gray-400 mb-2">Average Rating</div>
+            <div class="text-xs text-green-600 dark:text-green-400">
+                <i class="fas fa-arrow-up"></i> +0.3 from last month
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 hover:shadow-lg transition-all duration-300 animate-fade-in-up" style="animation-delay: 0.3s">
+            <div class="flex justify-between items-start mb-4">
+                <div class="w-12 h-12 bg-indigo-50 dark:bg-indigo-900/30 rounded-xl flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+                    <i class="fas fa-clock text-xl"></i>
+                </div>
+            </div>
+            <div class="text-3xl font-bold text-gray-900 dark:text-white mb-1">124</div>
+            <div class="text-sm text-gray-500 dark:text-gray-400 mb-2">Hours Worked</div>
+            <div class="text-xs text-green-600 dark:text-green-400">
+                <i class="fas fa-arrow-up"></i> +18 this month
+            </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 hover:shadow-lg transition-all duration-300 animate-fade-in-up" style="animation-delay: 0.4s">
+            <div class="flex justify-between items-start mb-4">
+                <div class="w-12 h-12 bg-indigo-50 dark:bg-indigo-900/30 rounded-xl flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+                    <i class="fas fa-trophy text-xl"></i>
+                </div>
+            </div>
+            <div class="text-3xl font-bold text-gray-900 dark:text-white mb-1">1,250</div>
+            <div class="text-sm text-gray-500 dark:text-gray-400 mb-2">Trust Points</div>
+            <div class="text-xs text-indigo-600 dark:text-indigo-400">Top 5% of students</div>
+        </div>
     </div>
 
-    <!-- Charts -->
-    <div class="charts-grid">
-        <div class="chart-card animate-in" style="animation-delay: 0.5s">
-            <div class="chart-title">Weekly Activity</div>
+    <!-- Charts Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Activity Chart -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 animate-fade-in-up" style="animation-delay: 0.5s">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Weekly Activity</h3>
             <canvas id="activityChart" height="200"></canvas>
         </div>
-        <div class="chart-card animate-in" style="animation-delay: 0.6s">
-            <div class="chart-title">Projects by Category</div>
+
+        <!-- Category Chart -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 animate-fade-in-up" style="animation-delay: 0.6s">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Projects by Category</h3>
             <canvas id="categoryChart" height="200"></canvas>
         </div>
     </div>
 
-    <!-- Recent Projects -->
-    <div class="projects-card animate-in" style="animation-delay: 0.7s">
-        <div class="projects-header">
-            <h3>Recent Projects</h3>
-            <a href="#" style="color: var(--primary); text-decoration: none;">View all →</a>
+    <!-- Recent Projects Table -->
+    <div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6 animate-fade-in-up" style="animation-delay: 0.7s">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Recent Projects</h3>
+            <a href="#" class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline">View all →</a>
         </div>
-        <div class="projects-table">
-            <table>
+        
+        <div class="overflow-x-auto">
+            <table class="w-full">
                 <thead>
-                    <tr>
-                        <th>Project Name</th>
-                        <th>Entity</th>
-                        <th>Status</th>
-                        <th>Progress</th>
-                        <th>Due Date</th>
-                        <th>Rating</th>
+                    <tr class="border-b border-gray-200 dark:border-gray-700">
+                        <th class="text-left py-3 px-3 text-xs font-medium text-gray-500 dark:text-gray-400">Project Name</th>
+                        <th class="text-left py-3 px-3 text-xs font-medium text-gray-500 dark:text-gray-400">Entity</th>
+                        <th class="text-left py-3 px-3 text-xs font-medium text-gray-500 dark:text-gray-400">Status</th>
+                        <th class="text-left py-3 px-3 text-xs font-medium text-gray-500 dark:text-gray-400">Progress</th>
+                        <th class="text-left py-3 px-3 text-xs font-medium text-gray-500 dark:text-gray-400">Due Date</th>
+                        <th class="text-left py-3 px-3 text-xs font-medium text-gray-500 dark:text-gray-400">Rating</th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Project 1 -->
-                    <tr>
-                        <td><strong>Clinic Appointment System</strong></td>
-                        <td>Dr. Filali Clinic</td>
-                        <td><span class="status-badge status-progress">In Progress</span></td>
-                        <td>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 65%"></div>
+                    <tr class="border-b border-gray-100 dark:border-gray-800">
+                        <td class="py-4 px-3 font-medium text-gray-900 dark:text-white">Clinic Appointment System</td>
+                        <td class="py-4 px-3 text-gray-600 dark:text-gray-400">Dr. Filali Clinic</td>
+                        <td class="py-4 px-3"><span class="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400">In Progress</span></td>
+                        <td class="py-4 px-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-24 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                                    <div class="h-full bg-indigo-600 rounded-full" style="width: 65%"></div>
+                                </div>
+                                <span class="text-xs text-gray-500">65%</span>
                             </div>
-                            <small style="color: var(--text-secondary)">65%</small>
                         </td>
-                        <td>Jun 15, 2026</td>
-                        <td>—</td>
+                        <td class="py-4 px-3 text-gray-600 dark:text-gray-400">Jun 15, 2026</td>
+                        <td class="py-4 px-3 text-gray-500">—</td>
                     </tr>
                     
                     <!-- Project 2 -->
-                    <tr>
-                        <td><strong>Sales Analysis Dashboard</strong></td>
-                        <td>Fashion Store</td>
-                        <td><span class="status-badge status-progress">In Progress</span></td>
-                        <td>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 40%"></div>
+                    <tr class="border-b border-gray-100 dark:border-gray-800">
+                        <td class="py-4 px-3 font-medium text-gray-900 dark:text-white">Sales Analysis Dashboard</td>
+                        <td class="py-4 px-3 text-gray-600 dark:text-gray-400">Fashion Store</td>
+                        <td class="py-4 px-3"><span class="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400">In Progress</span></td>
+                        <td class="py-4 px-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-24 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                                    <div class="h-full bg-indigo-600 rounded-full" style="width: 40%"></div>
+                                </div>
+                                <span class="text-xs text-gray-500">40%</span>
                             </div>
-                            <small style="color: var(--text-secondary)">40%</small>
                         </td>
-                        <td>Jun 20, 2026</td>
-                        <td>—</td>
+                        <td class="py-4 px-3 text-gray-600 dark:text-gray-400">Jun 20, 2026</td>
+                        <td class="py-4 px-3 text-gray-500">—</td>
                     </tr>
                     
                     <!-- Project 3 -->
-                    <tr>
-                        <td><strong>Apple Rot Detection AI</strong></td>
-                        <td>Azilal Cooperative</td>
-                        <td><span class="status-badge status-pending">Pending</span></td>
-                        <td>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 15%"></div>
+                    <tr class="border-b border-gray-100 dark:border-gray-800">
+                        <td class="py-4 px-3 font-medium text-gray-900 dark:text-white">Apple Rot Detection AI</td>
+                        <td class="py-4 px-3 text-gray-600 dark:text-gray-400">Azilal Cooperative</td>
+                        <td class="py-4 px-3"><span class="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400">Pending</span></td>
+                        <td class="py-4 px-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-24 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                                    <div class="h-full bg-indigo-600 rounded-full" style="width: 15%"></div>
+                                </div>
+                                <span class="text-xs text-gray-500">15%</span>
                             </div>
-                            <small style="color: var(--text-secondary)">15%</small>
                         </td>
-                        <td>Jul 01, 2026</td>
-                        <td>—</td>
+                        <td class="py-4 px-3 text-gray-600 dark:text-gray-400">Jul 01, 2026</td>
+                        <td class="py-4 px-3 text-gray-500">—</td>
                     </tr>
                     
                     <!-- Project 4 (Completed) -->
-                    <tr>
-                        <td><strong>Student Management System</strong></td>
-                        <td>Al-Nahda School</td>
-                        <td><span class="status-badge status-completed">Completed</span></td>
-                        <td>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 100%"></div>
+                    <tr class="border-b border-gray-100 dark:border-gray-800">
+                        <td class="py-4 px-3 font-medium text-gray-900 dark:text-white">Student Management System</td>
+                        <td class="py-4 px-3 text-gray-600 dark:text-gray-400">Al-Nahda School</td>
+                        <td class="py-4 px-3"><span class="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">Completed</span></td>
+                        <td class="py-4 px-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-24 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                                    <div class="h-full bg-green-500 rounded-full" style="width: 100%"></div>
+                                </div>
+                                <span class="text-xs text-gray-500">100%</span>
                             </div>
-                            <small style="color: var(--text-secondary)">100%</small>
                         </td>
-                        <td>May 30, 2026</td>
-                        <td>4.9 ★</td>
+                        <td class="py-4 px-3 text-gray-600 dark:text-gray-400">May 30, 2026</td>
+                        <td class="py-4 px-3 text-yellow-500">4.9 ★</td>
                     </tr>
                     
                     <!-- Project 5 -->
                     <tr>
-                        <td><strong>Patient Wait Time Analysis</strong></td>
-                        <td>Ibn Sina Hospital</td>
-                        <td><span class="status-badge status-active">Active</span></td>
-                        <td>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 80%"></div>
+                        <td class="py-4 px-3 font-medium text-gray-900 dark:text-white">Patient Wait Time Analysis</td>
+                        <td class="py-4 px-3 text-gray-600 dark:text-gray-400">Ibn Sina Hospital</td>
+                        <td class="py-4 px-3"><span class="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">Active</span></td>
+                        <td class="py-4 px-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-24 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                                    <div class="h-full bg-indigo-600 rounded-full" style="width: 80%"></div>
+                                </div>
+                                <span class="text-xs text-gray-500">80%</span>
                             </div>
-                            <small style="color: var(--text-secondary)">80%</small>
                         </td>
-                        <td>Jun 25, 2026</td>
-                        <td>—</td>
+                        <td class="py-4 px-3 text-gray-600 dark:text-gray-400">Jun 25, 2026</td>
+                        <td class="py-4 px-3 text-gray-500">—</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
+</div>
 @endsection
 
 @push('styles')
 <style>
-    .projects-card {
-        background: var(--bg-secondary);
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        padding: 20px;
-    }
-    
-    .projects-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-    
-    .projects-header h3 {
-        font-size: 18px;
-        font-weight: 600;
-        margin: 0;
-    }
-    
-    .projects-table {
-        width: 100%;
-        overflow-x: auto;
-    }
-    
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    
-    th {
-        text-align: left;
-        padding: 12px;
-        color: var(--text-secondary);
-        font-weight: 500;
-        font-size: 13px;
-        border-bottom: 1px solid var(--border);
-    }
-    
-    td {
-        padding: 16px 12px;
-        border-bottom: 1px solid var(--border);
-        vertical-align: middle;
-    }
-    
-    .status-badge {
-        display: inline-block;
-        padding: 4px 12px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: 500;
-    }
-    
-    .status-active {
-        background: #e3f2fd;
-        color: #1565c0;
-    }
-    
-    .status-progress {
-        background: #fff3e0;
-        color: #ed6c02;
-    }
-    
-    .status-pending {
-        background: #f3e5f5;
-        color: #7b1fa2;
-    }
-    
-    .status-completed {
-        background: #e8f5e9;
-        color: #2e7d32;
-    }
-    
-    [data-theme="dark"] .status-active {
-        background: #0d2b3e;
-        color: #42a5f5;
-    }
-    
-    [data-theme="dark"] .status-progress {
-        background: #3a2a1a;
-        color: #ffa726;
-    }
-    
-    [data-theme="dark"] .status-pending {
-        background: #2a1a3e;
-        color: #ce93d8;
-    }
-    
-    [data-theme="dark"] .status-completed {
-        background: #1a3a1a;
-        color: #4caf50;
-    }
-    
-    .progress-bar {
-        width: 120px;
-        height: 6px;
-        background: var(--border);
-        border-radius: 3px;
-        overflow: hidden;
-    }
-    
-    .progress-fill {
-        height: 100%;
-        background: var(--primary);
-        border-radius: 3px;
-    }
-    
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 24px;
-        margin-bottom: 32px;
-    }
-    
-    .charts-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 24px;
-        margin-bottom: 32px;
-    }
-    
-    .chart-card {
-        background: var(--bg-secondary);
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        padding: 20px;
-    }
-    
-    .chart-title {
-        font-size: 16px;
-        font-weight: 600;
-        margin-bottom: 16px;
-    }
-    
-    @media (max-width: 1200px) {
-        .charts-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-    
     @keyframes fadeInUp {
         from {
             opacity: 0;
@@ -301,8 +202,9 @@
         }
     }
     
-    .animate-in {
+    .animate-fade-in-up {
         animation: fadeInUp 0.5s ease forwards;
+        opacity: 0;
     }
 </style>
 @endpush
@@ -310,7 +212,12 @@
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // Activity Chart (Weekly Hours)
+    // Get text color based on theme
+    function getTextColor() {
+        return document.documentElement.getAttribute('data-theme') === 'dark' ? '#94a3b8' : '#64748b';
+    }
+
+    // Activity Chart
     const activityCtx = document.getElementById('activityChart').getContext('2d');
     new Chart(activityCtx, {
         type: 'line',
@@ -334,39 +241,16 @@
             responsive: true,
             maintainAspectRatio: true,
             plugins: {
-                legend: {
-                    labels: {
-                        color: getComputedStyle(document.body).getPropertyValue('--text-secondary')
-                    }
-                },
-                tooltip: {
-                    backgroundColor: 'rgba(0,0,0,0.8)',
-                    titleColor: '#fff',
-                    bodyColor: '#ddd'
-                }
+                legend: { labels: { color: getTextColor() } }
             },
             scales: {
-                y: {
-                    grid: {
-                        color: getComputedStyle(document.body).getPropertyValue('--border')
-                    },
-                    ticks: {
-                        color: getComputedStyle(document.body).getPropertyValue('--text-secondary')
-                    }
-                },
-                x: {
-                    grid: {
-                        color: getComputedStyle(document.body).getPropertyValue('--border')
-                    },
-                    ticks: {
-                        color: getComputedStyle(document.body).getPropertyValue('--text-secondary')
-                    }
-                }
+                y: { grid: { color: '#e2e8f0' }, ticks: { color: getTextColor() } },
+                x: { grid: { display: false }, ticks: { color: getTextColor() } }
             }
         }
     });
 
-    // Category Chart (Projects Distribution)
+    // Category Chart
     const categoryCtx = document.getElementById('categoryChart').getContext('2d');
     new Chart(categoryCtx, {
         type: 'doughnut',
@@ -384,22 +268,13 @@
             maintainAspectRatio: true,
             cutout: '60%',
             plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        color: getComputedStyle(document.body).getPropertyValue('--text-secondary'),
-                        usePointStyle: true,
-                        boxWidth: 10
-                    }
-                },
+                legend: { position: 'bottom', labels: { color: getTextColor(), usePointStyle: true, boxWidth: 10 } },
                 tooltip: {
                     callbacks: {
                         label: function(context) {
-                            const label = context.label || '';
-                            const value = context.raw || 0;
-                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                            const percentage = ((value / total) * 100).toFixed(1);
-                            return `${label}: ${value} (${percentage}%)`;
+                            let total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            let percentage = ((context.raw / total) * 100).toFixed(1);
+                            return `${context.label}: ${context.raw} (${percentage}%)`;
                         }
                     }
                 }

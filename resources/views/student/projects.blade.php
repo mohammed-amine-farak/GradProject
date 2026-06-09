@@ -5,437 +5,66 @@
 @section('page_title', 'My Projects')
 
 @section('content')
-<div class="projects-container">
+<div class="max-w-6xl mx-auto">
     <!-- Tabs -->
-    <div class="projects-tabs">
-        <button class="tab-btn active" data-tab="active">
-            <i class="fas fa-play-circle"></i> Active Projects
-            <span class="tab-count" id="activeCount">0</span>
+    <div class="flex flex-wrap gap-2 mb-6">
+        <button data-tab="active" class="tab-btn px-5 py-2.5 rounded-xl text-sm font-medium transition-all bg-indigo-600 text-white shadow-sm">
+            <i class="fas fa-play-circle mr-2"></i> Active
+            <span class="ml-1.5 px-2 py-0.5 bg-white/20 rounded-full text-xs">3</span>
         </button>
-        <button class="tab-btn" data-tab="pending">
-            <i class="fas fa-clock"></i> Pending
-            <span class="tab-count" id="pendingCount">0</span>
+        <button data-tab="pending" class="tab-btn px-5 py-2.5 rounded-xl text-sm font-medium transition-all text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800">
+            <i class="fas fa-clock mr-2"></i> Pending
+            <span class="ml-1.5 px-2 py-0.5 bg-gray-200 dark:bg-gray-700 rounded-full text-xs">1</span>
         </button>
-        <button class="tab-btn" data-tab="completed">
-            <i class="fas fa-check-circle"></i> Completed
-            <span class="tab-count" id="completedCount">0</span>
+        <button data-tab="completed" class="tab-btn px-5 py-2.5 rounded-xl text-sm font-medium transition-all text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800">
+            <i class="fas fa-check-circle mr-2"></i> Completed
+            <span class="ml-1.5 px-2 py-0.5 bg-gray-200 dark:bg-gray-700 rounded-full text-xs">2</span>
         </button>
-        <button class="tab-btn" data-tab="all">
-            <i class="fas fa-list"></i> All Projects
-            <span class="tab-count" id="allCount">0</span>
+        <button data-tab="all" class="tab-btn px-5 py-2.5 rounded-xl text-sm font-medium transition-all text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800">
+            <i class="fas fa-list mr-2"></i> All
+            <span class="ml-1.5 px-2 py-0.5 bg-gray-200 dark:bg-gray-700 rounded-full text-xs">6</span>
         </button>
     </div>
 
     <!-- Search Bar -->
-    <div class="search-section">
-        <div class="search-bar">
-            <i class="fas fa-search"></i>
-            <input type="text" id="searchInput" placeholder="Search by project name or entity..." class="search-input">
-        </div>
+    <div class="relative mb-6">
+        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500"></i>
+        <input type="text" id="searchInput" placeholder="Search by project name or entity..." 
+               class="w-full pl-11 pr-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all">
     </div>
 
     <!-- Projects List -->
-    <div class="projects-list" id="projectsList">
-        <!-- Projects will be loaded here -->
-    </div>
-
-    <!-- Loading State -->
-    <div class="loading-state" id="loadingState" style="display: none;">
-        <div class="spinner"></div>
-        <p>Loading your projects...</p>
+    <div id="projectsList" class="space-y-4">
+        <!-- Projects will be loaded dynamically -->
     </div>
 
     <!-- Empty State -->
-    <div class="empty-state" id="emptyState" style="display: none;">
-        <i class="fas fa-folder-open"></i>
-        <h3>No projects found</h3>
-        <p>You haven't applied to any projects yet.</p>
-        <a href="{{ route('student.problems') }}" class="btn-primary">Browse Problems</a>
+    <div id="emptyState" class="hidden text-center py-16 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+        <i class="fas fa-folder-open text-5xl text-gray-400 dark:text-gray-500 mb-4"></i>
+        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">No projects found</h3>
+        <p class="text-gray-500 dark:text-gray-400 mb-4">You haven't applied to any projects yet.</p>
+        <a href="{{ route('student.problems') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-all">
+            <i class="fas fa-search"></i> Browse Problems
+        </a>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loadingState" class="hidden text-center py-16">
+        <div class="inline-block w-10 h-10 border-4 border-gray-200 dark:border-gray-700 border-t-indigo-600 rounded-full animate-spin"></div>
+        <p class="mt-4 text-gray-500 dark:text-gray-400">Loading your projects...</p>
     </div>
 </div>
+@endsection
 
 @push('styles')
 <style>
-    .projects-container {
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-
-    /* Tabs */
-    .projects-tabs {
-        display: flex;
-        gap: 8px;
-        margin-bottom: 32px;
-        background: var(--bg-secondary);
-        padding: 8px;
-        border-radius: 16px;
-        border: 1px solid var(--border);
-    }
-
-    .tab-btn {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        padding: 12px 20px;
-        background: transparent;
-        border: none;
-        border-radius: 12px;
-        font-size: 14px;
-        font-weight: 500;
-        color: var(--text-secondary);
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-
-    .tab-btn i {
-        font-size: 16px;
-    }
-
-    .tab-btn:hover {
-        background: var(--bg-primary);
-        color: var(--text-primary);
-    }
-
     .tab-btn.active {
-        background: var(--primary);
+        background: #4f46e5;
         color: white;
     }
-
-    .tab-btn.active .tab-count {
-        background: rgba(255,255,255,0.2);
+    .dark .tab-btn.active {
+        background: #4f46e5;
         color: white;
-    }
-
-    .tab-count {
-        display: inline-block;
-        padding: 2px 8px;
-        background: var(--bg-primary);
-        border-radius: 20px;
-        font-size: 11px;
-        font-weight: 600;
-        color: var(--text-secondary);
-    }
-
-    /* Search Section */
-    .search-section {
-        margin-bottom: 24px;
-    }
-
-    .search-bar {
-        position: relative;
-    }
-
-    .search-bar i {
-        position: absolute;
-        left: 16px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: var(--text-secondary);
-    }
-
-    .search-input {
-        width: 100%;
-        padding: 14px 16px 14px 45px;
-        background: var(--bg-secondary);
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        font-size: 14px;
-        color: var(--text-primary);
-        transition: all 0.2s;
-    }
-
-    .search-input:focus {
-        outline: none;
-        border-color: var(--primary);
-        box-shadow: 0 0 0 3px var(--primary-light);
-    }
-
-    /* Projects List */
-    .projects-list {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .project-card {
-        background: var(--bg-secondary);
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        padding: 24px;
-        transition: all 0.2s;
-    }
-
-    .project-card:hover {
-        box-shadow: var(--card-shadow);
-        border-color: var(--primary-light);
-    }
-
-    .project-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: 16px;
-    }
-
-    .project-title-section h3 {
-        font-size: 18px;
-        font-weight: 600;
-        margin-bottom: 6px;
-        color: var(--text-primary);
-    }
-
-    .project-entity {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 13px;
-        color: var(--text-secondary);
-    }
-
-    .project-entity i {
-        font-size: 12px;
-    }
-
-    .project-status {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 6px 12px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: 500;
-    }
-
-    .status-active {
-        background: #e3f2fd;
-        color: #1565c0;
-    }
-
-    .status-in_progress {
-        background: #fff3e0;
-        color: #ed6c02;
-    }
-
-    .status-pending {
-        background: #f3e5f5;
-        color: #7b1fa2;
-    }
-
-    .status-completed {
-        background: #e8f5e9;
-        color: #2e7d32;
-    }
-
-    .status-rejected {
-        background: #ffebee;
-        color: #c62828;
-    }
-
-    [data-theme="dark"] .status-active {
-        background: #0d2b3e;
-        color: #42a5f5;
-    }
-
-    [data-theme="dark"] .status-in_progress {
-        background: #3a2a1a;
-        color: #ffa726;
-    }
-
-    [data-theme="dark"] .status-pending {
-        background: #2a1a3e;
-        color: #ce93d8;
-    }
-
-    [data-theme="dark"] .status-completed {
-        background: #1a3a1a;
-        color: #4caf50;
-    }
-
-    .project-details {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 16px;
-        margin-bottom: 20px;
-        padding: 16px 0;
-        border-top: 1px solid var(--border);
-        border-bottom: 1px solid var(--border);
-    }
-
-    .detail-item {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .detail-item i {
-        width: 32px;
-        height: 32px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: var(--bg-primary);
-        border-radius: 10px;
-        color: var(--primary);
-        font-size: 14px;
-    }
-
-    .detail-info {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .detail-label {
-        font-size: 11px;
-        color: var(--text-secondary);
-    }
-
-    .detail-value {
-        font-size: 14px;
-        font-weight: 500;
-        color: var(--text-primary);
-    }
-
-    .project-progress {
-        margin-bottom: 20px;
-    }
-
-    .progress-header {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 8px;
-        font-size: 13px;
-    }
-
-    .progress-bar {
-        height: 8px;
-        background: var(--border);
-        border-radius: 4px;
-        overflow: hidden;
-    }
-
-    .progress-fill {
-        height: 100%;
-        background: linear-gradient(90deg, var(--primary), var(--success));
-        border-radius: 4px;
-        transition: width 0.3s;
-    }
-
-    .project-actions {
-        display: flex;
-        gap: 12px;
-        justify-content: flex-end;
-    }
-
-    .btn-outline {
-        padding: 8px 20px;
-        background: transparent;
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        font-size: 13px;
-        font-weight: 500;
-        color: var(--text-secondary);
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-
-    .btn-outline:hover {
-        border-color: var(--primary);
-        color: var(--primary);
-        background: var(--primary-light);
-    }
-
-    .btn-primary {
-        padding: 8px 20px;
-        background: var(--primary);
-        border: none;
-        border-radius: 10px;
-        font-size: 13px;
-        font-weight: 500;
-        color: white;
-        cursor: pointer;
-        transition: background 0.2s;
-    }
-
-    .btn-primary:hover {
-        background: var(--primary-dark);
-    }
-
-    /* Rating Stars */
-    .rating {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-    }
-
-    .rating i {
-        color: #ffc107;
-        font-size: 14px;
-    }
-
-    .rating-value {
-        font-weight: 600;
-        margin-right: 4px;
-    }
-
-    /* Loading & Empty States */
-    .loading-state, .empty-state {
-        text-align: center;
-        padding: 60px;
-        background: var(--bg-secondary);
-        border: 1px solid var(--border);
-        border-radius: 20px;
-    }
-
-    .spinner {
-        width: 40px;
-        height: 40px;
-        border: 3px solid var(--border);
-        border-top-color: var(--primary);
-        border-radius: 50%;
-        animation: spin 0.8s linear infinite;
-        margin: 0 auto 16px;
-    }
-
-    @keyframes spin {
-        to { transform: rotate(360deg); }
-    }
-
-    .empty-state i {
-        font-size: 48px;
-        color: var(--text-secondary);
-        margin-bottom: 16px;
-    }
-
-    .empty-state h3 {
-        font-size: 20px;
-        margin-bottom: 8px;
-    }
-
-    @media (max-width: 768px) {
-        .projects-tabs {
-            flex-wrap: wrap;
-        }
-        
-        .tab-btn {
-            flex: auto;
-            padding: 10px 16px;
-            font-size: 12px;
-        }
-        
-        .project-details {
-            grid-template-columns: 1fr;
-        }
-        
-        .project-actions {
-            flex-wrap: wrap;
-        }
-        
-        .project-header {
-            flex-direction: column;
-            gap: 12px;
-        }
     }
 </style>
 @endpush
@@ -448,122 +77,135 @@
             id: 1,
             title: "Clinic Appointment System",
             entity: "Dr. Filali Clinic",
-            entity_location: "Casablanca",
+            location: "Casablanca",
             status: "active",
             progress: 65,
-            applied_date: "2026-05-01",
-            start_date: "2026-05-15",
-            deadline: "2026-06-15",
+            appliedDate: "May 1, 2026",
+            startDate: "May 15, 2026",
+            deadline: "Jun 15, 2026",
             category: "Healthcare",
-            category_icon: "fa-heartbeat",
-            skills: ["Python", "Pandas", "Data Viz"],
-            has_rating: false,
-            rating: null
+            categoryIcon: "fa-heartbeat",
+            skills: ["Python", "Pandas", "Data Visualization"],
+            hasRating: false,
+            rating: null,
+            review: null
         },
         {
             id: 2,
-            title: "Sales Analysis Dashboard",
+            title: "Sales Performance Dashboard",
             entity: "Fashion Store",
-            entity_location: "Rabat",
-            status: "in_progress",
+            location: "Rabat",
+            status: "active",
             progress: 40,
-            applied_date: "2026-05-10",
-            start_date: "2026-05-20",
-            deadline: "2026-06-20",
+            appliedDate: "May 10, 2026",
+            startDate: "May 20, 2026",
+            deadline: "Jun 20, 2026",
             category: "Business",
-            category_icon: "fa-chart-bar",
+            categoryIcon: "fa-chart-line",
             skills: ["Power BI", "Excel", "SQL"],
-            has_rating: false,
-            rating: null
+            hasRating: false,
+            rating: null,
+            review: null
         },
         {
             id: 3,
             title: "Apple Rot Detection AI",
             entity: "Azilal Cooperative",
-            entity_location: "Azilal",
+            location: "Azilal",
             status: "pending",
             progress: 0,
-            applied_date: "2026-05-25",
-            start_date: null,
-            deadline: "2026-07-01",
+            appliedDate: "May 25, 2026",
+            startDate: null,
+            deadline: "Jul 1, 2026",
             category: "Agriculture",
-            category_icon: "fa-seedling",
+            categoryIcon: "fa-seedling",
             skills: ["Deep Learning", "CNN", "Python"],
-            has_rating: false,
-            rating: null
+            hasRating: false,
+            rating: null,
+            review: null
         },
         {
             id: 4,
             title: "Student Management System",
             entity: "Al-Nahda School",
-            entity_location: "Fes",
+            location: "Fes",
             status: "completed",
             progress: 100,
-            applied_date: "2026-03-01",
-            start_date: "2026-03-15",
-            deadline: "2026-05-30",
-            completed_date: "2026-05-28",
+            appliedDate: "Mar 1, 2026",
+            startDate: "Mar 15, 2026",
+            deadline: "May 30, 2026",
+            completedDate: "May 28, 2026",
             category: "Education",
-            category_icon: "fa-graduation-cap",
+            categoryIcon: "fa-graduation-cap",
             skills: ["Laravel", "MySQL", "HTML/CSS"],
-            has_rating: true,
+            hasRating: true,
             rating: 4.9,
-            entity_review: "Excellent work! The system exceeded our expectations and has been fully implemented.",
-            academic_rating: 18.5
+            review: "Excellent work! The system exceeded our expectations and has been fully implemented.",
+            academicRating: 18.5
         },
         {
             id: 5,
             title: "Customer Churn Prediction",
             entity: "Telecom Company",
-            entity_location: "Casablanca",
+            location: "Casablanca",
             status: "completed",
             progress: 100,
-            applied_date: "2026-02-15",
-            start_date: "2026-03-01",
-            deadline: "2026-04-30",
-            completed_date: "2026-04-25",
+            appliedDate: "Feb 15, 2026",
+            startDate: "Mar 1, 2026",
+            deadline: "Apr 30, 2026",
+            completedDate: "Apr 25, 2026",
             category: "Data Science",
-            category_icon: "fa-chart-line",
+            categoryIcon: "fa-chart-pie",
             skills: ["Python", "Scikit-learn", "Pandas"],
-            has_rating: true,
+            hasRating: true,
             rating: 4.7,
-            entity_review: "Great analysis! The model is now in production and helping us retain customers.",
-            academic_rating: 17.8
+            review: "Great analysis! The model is now in production and helping us retain customers.",
+            academicRating: 17.8
         }
     ];
 
     let currentTab = 'active';
     let searchTerm = '';
 
-    // DOM Elements
-    const projectsList = document.getElementById('projectsList');
-    const loadingState = document.getElementById('loadingState');
-    const emptyState = document.getElementById('emptyState');
-    const searchInput = document.getElementById('searchInput');
-
-    // Update tab counts
-    function updateCounts() {
-        document.getElementById('activeCount').textContent = projectsData.filter(p => p.status === 'active' || p.status === 'in_progress').length;
-        document.getElementById('pendingCount').textContent = projectsData.filter(p => p.status === 'pending').length;
-        document.getElementById('completedCount').textContent = projectsData.filter(p => p.status === 'completed').length;
-        document.getElementById('allCount').textContent = projectsData.length;
+    // Helper Functions
+    function getStatusBadgeClass(status) {
+        const classes = {
+            'active': 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400',
+            'pending': 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400',
+            'completed': 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400'
+        };
+        return classes[status] || classes.pending;
     }
 
-    // Filter projects based on current tab and search
+    function getStatusText(status) {
+        const texts = { 'active': 'Active', 'pending': 'Pending Review', 'completed': 'Completed' };
+        return texts[status] || status;
+    }
+
+    function getStatusIcon(status) {
+        const icons = { 'active': 'fa-play-circle', 'pending': 'fa-clock', 'completed': 'fa-check-circle' };
+        return icons[status] || 'fa-clock';
+    }
+
+    function getProgressColor(progress) {
+        if (progress < 30) return '#ef4444';
+        if (progress < 70) return '#f59e0b';
+        return '#10b981';
+    }
+
+    // Filter Projects
     function getFilteredProjects() {
         let filtered = [...projectsData];
         
-        // Filter by tab
         if (currentTab === 'active') {
-            filtered = filtered.filter(p => p.status === 'active' || p.status === 'in_progress');
+            filtered = filtered.filter(p => p.status === 'active');
         } else if (currentTab !== 'all') {
             filtered = filtered.filter(p => p.status === currentTab);
         }
         
-        // Filter by search
         if (searchTerm) {
             filtered = filtered.filter(p => 
-                p.title.toLowerCase().includes(searchTerm) ||
+                p.title.toLowerCase().includes(searchTerm) || 
                 p.entity.toLowerCase().includes(searchTerm)
             );
         }
@@ -571,230 +213,220 @@
         return filtered;
     }
 
-    // Get status badge HTML
-    function getStatusBadge(status) {
-        const badges = {
-            'active': { class: 'status-active', icon: 'fa-play-circle', text: 'Active' },
-            'in_progress': { class: 'status-in_progress', icon: 'fa-spinner', text: 'In Progress' },
-            'pending': { class: 'status-pending', icon: 'fa-clock', text: 'Pending Review' },
-            'completed': { class: 'status-completed', icon: 'fa-check-circle', text: 'Completed' },
-            'rejected': { class: 'status-rejected', icon: 'fa-times-circle', text: 'Not Selected' }
-        };
-        const badge = badges[status] || badges.pending;
-        return `<span class="project-status ${badge.class}"><i class="fas ${badge.icon}"></i> ${badge.text}</span>`;
-    }
-
-    // Format date
-    function formatDate(dateString) {
-        if (!dateString) return 'Not set';
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-    }
-
-    // Get progress color
-    function getProgressColor(progress) {
-        if (progress < 30) return '#ef476f';
-        if (progress < 70) return '#ff9e00';
-        return '#06d6a0';
-    }
-
-    // Render projects
+    // Render Projects
     function renderProjects() {
-        loadingState.style.display = 'block';
-        projectsList.style.display = 'none';
-        emptyState.style.display = 'none';
+        const filtered = getFilteredProjects();
+        const container = document.getElementById('projectsList');
+        const emptyState = document.getElementById('emptyState');
+        const loadingState = document.getElementById('loadingState');
+        
+        // Show loading
+        loadingState.classList.remove('hidden');
+        container.classList.add('hidden');
+        emptyState.classList.add('hidden');
         
         setTimeout(() => {
-            const filtered = getFilteredProjects();
-            loadingState.style.display = 'none';
+            loadingState.classList.add('hidden');
             
             if (filtered.length === 0) {
-                projectsList.style.display = 'none';
-                emptyState.style.display = 'block';
+                container.classList.add('hidden');
+                emptyState.classList.remove('hidden');
                 return;
             }
             
-            projectsList.style.display = 'flex';
-            emptyState.style.display = 'none';
+            container.classList.remove('hidden');
+            emptyState.classList.add('hidden');
             
-            projectsList.innerHTML = filtered.map(project => `
-                <div class="project-card">
-                    <div class="project-header">
-                        <div class="project-title-section">
-                            <h3>${project.title}</h3>
-                            <div class="project-entity">
-                                <i class="fas ${project.category_icon}"></i>
-                                <span>${project.category}</span>
-                                <span>•</span>
-                                <i class="fas fa-building"></i>
-                                <span>${project.entity}</span>
-                                <span>•</span>
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>${project.entity_location}</span>
+            container.innerHTML = filtered.map(project => `
+                <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-all">
+                    <!-- Project Header -->
+                    <div class="p-5 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30">
+                        <div class="flex flex-col md:flex-row justify-between items-start gap-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded-full text-xs font-medium">
+                                        <i class="fas ${project.categoryIcon} text-xs"></i> ${project.category}
+                                    </span>
+                                </div>
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">${project.title}</h3>
+                                <div class="flex flex-wrap items-center gap-3 mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                    <span><i class="fas fa-building mr-1"></i> ${project.entity}</span>
+                                    <span><i class="fas fa-map-marker-alt mr-1"></i> ${project.location}</span>
+                                </div>
                             </div>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium ${getStatusBadgeClass(project.status)}">
+                                <i class="fas ${getStatusIcon(project.status)}"></i> ${getStatusText(project.status)}
+                            </span>
                         </div>
-                        ${getStatusBadge(project.status)}
                     </div>
                     
-                    <div class="project-details">
-                        <div class="detail-item">
-                            <i class="fas fa-calendar-alt"></i>
-                            <div class="detail-info">
-                                <span class="detail-label">Applied On</span>
-                                <span class="detail-value">${formatDate(project.applied_date)}</span>
+                    <!-- Project Details -->
+                    <div class="p-5">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                            <div>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Applied On</p>
+                                <p class="text-sm font-medium text-gray-900 dark:text-white">${project.appliedDate}</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Started</p>
+                                <p class="text-sm font-medium text-gray-900 dark:text-white">${project.startDate || 'Not started'}</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Deadline</p>
+                                <p class="text-sm font-medium ${new Date(project.deadline) < new Date() && project.status !== 'completed' ? 'text-red-600 dark:text-red-400' : 'text-gray-900 dark:text-white'}">${project.deadline}</p>
+                            </div>
+                            ${project.completedDate ? `
+                            <div>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Completed</p>
+                                <p class="text-sm font-medium text-green-600 dark:text-green-400">${project.completedDate}</p>
+                            </div>
+                            ` : ''}
+                        </div>
+                        
+                        <!-- Skills -->
+                        <div class="mb-4">
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">Required Skills</p>
+                            <div class="flex flex-wrap gap-2">
+                                ${project.skills.map(skill => `<span class="px-2.5 py-1 bg-gray-100 dark:bg-gray-700 rounded-lg text-xs text-gray-600 dark:text-gray-300">${skill}</span>`).join('')}
                             </div>
                         </div>
-                        <div class="detail-item">
-                            <i class="fas fa-play-circle"></i>
-                            <div class="detail-info">
-                                <span class="detail-label">Started</span>
-                                <span class="detail-value">${formatDate(project.start_date)}</span>
+                        
+                        <!-- Progress Bar (for active projects) -->
+                        ${project.status === 'active' ? `
+                        <div class="mb-5">
+                            <div class="flex justify-between text-sm mb-1.5">
+                                <span class="text-gray-600 dark:text-gray-400">Project Progress</span>
+                                <span class="font-semibold text-gray-900 dark:text-white">${project.progress}%</span>
                             </div>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-flag-checkered"></i>
-                            <div class="detail-info">
-                                <span class="detail-label">Deadline</span>
-                                <span class="detail-value">${formatDate(project.deadline)}</span>
-                            </div>
-                        </div>
-                        ${project.completed_date ? `
-                        <div class="detail-item">
-                            <i class="fas fa-check-circle"></i>
-                            <div class="detail-info">
-                                <span class="detail-label">Completed</span>
-                                <span class="detail-value">${formatDate(project.completed_date)}</span>
+                            <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                                <div class="h-full rounded-full transition-all duration-500" style="width: ${project.progress}%; background: linear-gradient(90deg, #4f46e5, ${getProgressColor(project.progress)});"></div>
                             </div>
                         </div>
                         ` : ''}
-                    </div>
-                    
-                    <div class="project-skills" style="margin-bottom: 16px;">
-                        <div class="detail-label" style="margin-bottom: 6px;">Required Skills</div>
-                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                            ${project.skills.map(skill => `<span class="skill-tag" style="background: var(--bg-primary); padding: 4px 10px; border-radius: 16px; font-size: 12px;">${skill}</span>`).join('')}
-                        </div>
-                    </div>
-                    
-                    ${project.status !== 'pending' ? `
-                    <div class="project-progress">
-                        <div class="progress-header">
-                            <span>Project Progress</span>
-                            <span>${project.progress}%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${project.progress}%; background: linear-gradient(90deg, var(--primary), ${getProgressColor(project.progress)});"></div>
-                        </div>
-                    </div>
-                    ` : ''}
-                    
-                    ${project.has_rating ? `
-                    <div style="margin-bottom: 20px; padding: 16px; background: var(--bg-primary); border-radius: 12px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
-                            <div>
-                                <div class="detail-label">Entity Rating</div>
-                                <div class="rating">
-                                    <span class="rating-value">${project.rating}</span>
-                                    ${Array(5).fill().map((_, i) => `<i class="fas fa-star"></i>`).join('')}
+                        
+                        <!-- Rating & Review (for completed projects) -->
+                        ${project.hasRating ? `
+                        <div class="mb-5 p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl">
+                            <div class="flex flex-wrap justify-between items-start gap-3">
+                                <div>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Entity Rating</p>
+                                    <div class="flex items-center gap-1">
+                                        <span class="text-lg font-bold text-gray-900 dark:text-white">${project.rating}</span>
+                                        <i class="fas fa-star text-yellow-500"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Academic Rating</p>
+                                    <p class="text-lg font-bold text-gray-900 dark:text-white">${project.academicRating}<span class="text-sm text-gray-500">/20</span></p>
+                                </div>
+                                <div class="flex-1 min-w-[150px]">
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Feedback</p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300 italic">"${project.review}"</p>
                                 </div>
                             </div>
-                            <div>
-                                <div class="detail-label">Academic Rating</div>
-                                <div style="font-weight: 600; color: var(--text-primary);">${project.academic_rating}/20</div>
-                            </div>
-                            <div>
-                                <i class="fas fa-quote-left" style="color: var(--text-secondary); opacity: 0.5;"></i>
-                                <span style="font-size: 13px; color: var(--text-secondary);">${project.entity_review.substring(0, 80)}...</span>
-                            </div>
                         </div>
-                    </div>
-                    ` : ''}
-                    
-                    <div class="project-actions">
-                        ${project.status === 'pending' ? `
-                            <button class="btn-outline" onclick="viewDetails(${project.id})">
-                                <i class="fas fa-eye"></i> View Application
-                            </button>
-                            <button class="btn-outline" onclick="cancelApplication(${project.id})">
-                                <i class="fas fa-times"></i> Cancel
-                            </button>
-                        ` : project.status === 'completed' ? `
-                            <button class="btn-outline" onclick="viewCertificate(${project.id})">
-                                <i class="fas fa-certificate"></i> Certificate
-                            </button>
-                            <button class="btn-outline" onclick="downloadReport(${project.id})">
-                                <i class="fas fa-download"></i> Report
-                            </button>
-                        ` : `
-                            <button class="btn-outline" onclick="viewDetails(${project.id})">
-                                <i class="fas fa-eye"></i> View Details
-                            </button>
-                            <button class="btn-outline" onclick="submitWork(${project.id})">
-                                <i class="fas fa-upload"></i> Submit Work
-                            </button>
-                            <button class="btn-outline" onclick="messageEntity(${project.id})">
-                                <i class="fas fa-comment"></i> Message
-                            </button>
-                        `}
+                        ` : ''}
+                        
+                        <!-- Action Buttons -->
+                        <div class="flex flex-wrap gap-3 justify-end pt-2">
+                            ${project.status === 'pending' ? `
+                                <button onclick="viewDetails(${project.id})" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
+                                    <i class="fas fa-eye mr-1"></i> View Application
+                                </button>
+                                <button onclick="cancelApplication(${project.id})" class="px-4 py-2 border border-red-300 dark:border-red-700 rounded-lg text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all">
+                                    <i class="fas fa-times mr-1"></i> Cancel
+                                </button>
+                            ` : project.status === 'completed' ? `
+                                <button onclick="viewCertificate(${project.id})" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
+                                    <i class="fas fa-certificate mr-1"></i> Certificate
+                                </button>
+                                <button onclick="downloadReport(${project.id})" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
+                                    <i class="fas fa-download mr-1"></i> Report
+                                </button>
+                            ` : `
+                                <button onclick="viewDetails(${project.id})" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
+                                    <i class="fas fa-eye mr-1"></i> View Details
+                                </button>
+                                <button onclick="submitWork(${project.id})" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition-all">
+                                    <i class="fas fa-upload mr-1"></i> Submit Work
+                                </button>
+                                <button onclick="messageEntity(${project.id})" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
+                                    <i class="fas fa-comment mr-1"></i> Message
+                                </button>
+                            `}
+                        </div>
                     </div>
                 </div>
             `).join('');
         }, 300);
     }
 
-    // Filter and render
-    function filterAndRender() {
-        renderProjects();
+    // Action Functions
+    function viewDetails(id) {
+        const project = projectsData.find(p => p.id === id);
+        alert(`📋 Viewing details for:\n\n${project.title}\n\nThis feature will be implemented soon!`);
     }
 
-    // Tab switching
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentTab = btn.dataset.tab;
-            filterAndRender();
-        });
-    });
-
-    // Search input
-    searchInput.addEventListener('input', (e) => {
-        searchTerm = e.target.value.toLowerCase();
-        filterAndRender();
-    });
-
-    // Action functions (to be implemented)
-    function viewDetails(projectId) {
-        const project = projectsData.find(p => p.id === projectId);
-        alert(`Viewing details for:\n${project.title}\n\nThis feature will be implemented soon!`);
+    function submitWork(id) {
+        const project = projectsData.find(p => p.id === id);
+        alert(`📤 Submit work for:\n\n${project.title}\n\nThis feature will be implemented soon!`);
     }
 
-    function submitWork(projectId) {
-        const project = projectsData.find(p => p.id === projectId);
-        alert(`Submit work for:\n${project.title}\n\nThis feature will be implemented soon!`);
+    function messageEntity(id) {
+        const project = projectsData.find(p => p.id === id);
+        alert(`💬 Message ${project.entity} about:\n\n${project.title}\n\nThis feature will be implemented soon!`);
     }
 
-    function messageEntity(projectId) {
-        const project = projectsData.find(p => p.id === projectId);
-        alert(`Message ${project.entity} about:\n${project.title}\n\nThis feature will be implemented soon!`);
-    }
-
-    function cancelApplication(projectId) {
+    function cancelApplication(id) {
         if (confirm('Are you sure you want to cancel this application?')) {
-            alert('Application cancelled!');
+            alert('❌ Application cancelled!');
         }
     }
 
-    function viewCertificate(projectId) {
-        alert('Certificate will be generated soon!');
+    function viewCertificate(id) {
+        alert('🎓 Certificate will be generated soon!');
     }
 
-    function downloadReport(projectId) {
-        alert('Report download started!');
+    function downloadReport(id) {
+        alert('📄 Report download started!');
+    }
+
+    // Tab Switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.remove('active');
+                b.classList.add('text-gray-600', 'dark:text-gray-400', 'bg-transparent');
+            });
+            this.classList.add('active');
+            this.classList.remove('text-gray-600', 'dark:text-gray-400', 'bg-transparent');
+            
+            currentTab = this.dataset.tab;
+            renderProjects();
+        });
+    });
+
+    // Search Input
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', function(e) {
+        searchTerm = e.target.value.toLowerCase();
+        renderProjects();
+    });
+
+    // Update tab counts
+    function updateTabCounts() {
+        const activeCount = projectsData.filter(p => p.status === 'active').length;
+        const pendingCount = projectsData.filter(p => p.status === 'pending').length;
+        const completedCount = projectsData.filter(p => p.status === 'completed').length;
+        
+        document.querySelector('[data-tab="active"] .rounded-full').textContent = activeCount;
+        document.querySelector('[data-tab="pending"] .rounded-full').textContent = pendingCount;
+        document.querySelector('[data-tab="completed"] .rounded-full').textContent = completedCount;
+        document.querySelector('[data-tab="all"] .rounded-full').textContent = projectsData.length;
     }
 
     // Initialize
-    updateCounts();
+    updateTabCounts();
     renderProjects();
 </script>
 @endpush

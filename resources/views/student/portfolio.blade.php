@@ -5,573 +5,113 @@
 @section('page_title', 'My Portfolio')
 
 @section('content')
-<div class="portfolio-container">
+<div class="max-w-6xl mx-auto space-y-6">
     <!-- Profile Header -->
-    <div class="profile-header">
-        <div class="profile-avatar">
-            <div class="avatar-large">AB</div>
-            <button class="btn-share" onclick="sharePortfolio()">
-                <i class="fas fa-share-alt"></i> Share
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row gap-6 md:gap-8">
+        <div class="text-center">
+            <div class="w-28 h-28 md:w-32 md:h-32 bg-gradient-to-br from-indigo-600 to-purple-700 rounded-full flex items-center justify-center text-white text-4xl md:text-5xl font-bold mx-auto mb-4">
+                AB
+            </div>
+            <button onclick="sharePortfolio()" class="w-full bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg px-4 py-2 text-sm cursor-pointer transition-all hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:border-indigo-400 dark:hover:border-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400">
+                <i class="fas fa-share-alt mr-2"></i> Share
             </button>
         </div>
-        <div class="profile-info">
-            <h1>Ahmed Benani</h1>
-            <p class="student-title">Master's Student in Data Science</p>
-            <p class="student-university">Hassan II University · Casablanca</p>
-            <div class="profile-stats">
-                <div class="stat">
-                    <span class="stat-number" id="totalProjects">8</span>
-                    <span class="stat-label">Projects Completed</span>
+        
+        <div class="flex-1 text-center md:text-left">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">Ahmed Benani</h1>
+            <p class="text-indigo-600 dark:text-indigo-400 mb-1">Master's Student in Data Science</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Hassan II University · Casablanca</p>
+            
+            <div class="flex justify-center md:justify-start gap-6 md:gap-8">
+                <div class="text-center">
+                    <span class="block text-2xl font-bold text-gray-900 dark:text-white">8</span>
+                    <span class="text-xs text-gray-500 dark:text-gray-400">Projects Completed</span>
                 </div>
-                <div class="stat">
-                    <span class="stat-number" id="avgRating">4.8</span>
-                    <span class="stat-label">Average Rating</span>
+                <div class="text-center">
+                    <span class="block text-2xl font-bold text-gray-900 dark:text-white">4.8</span>
+                    <span class="text-xs text-gray-500 dark:text-gray-400">Average Rating</span>
                 </div>
-                <div class="stat">
-                    <span class="stat-number" id="trustPoints">1,250</span>
-                    <span class="stat-label">Trust Points</span>
+                <div class="text-center">
+                    <span class="block text-2xl font-bold text-gray-900 dark:text-white">1,250</span>
+                    <span class="text-xs text-gray-500 dark:text-gray-400">Trust Points</span>
                 </div>
-                <div class="stat">
-                    <span class="stat-number" id="certifications">4</span>
-                    <span class="stat-label">Certifications</span>
+                <div class="text-center">
+                    <span class="block text-2xl font-bold text-gray-900 dark:text-white">4</span>
+                    <span class="text-xs text-gray-500 dark:text-gray-400">Certifications</span>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Social Links -->
-    <div class="social-links">
-        <a href="#" class="social-link"><i class="fab fa-github"></i> github.com/ahmedbenani</a>
-        <a href="#" class="social-link"><i class="fab fa-linkedin"></i> linkedin.com/in/ahmedbenani</a>
-        <a href="#" class="social-link"><i class="fas fa-envelope"></i> ahmed.benani@university.ma</a>
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 flex flex-wrap gap-4">
+        <a href="#" class="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-sm hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+            <i class="fab fa-github"></i> github.com/ahmedbenani
+        </a>
+        <a href="#" class="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-sm hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+            <i class="fab fa-linkedin"></i> linkedin.com/in/ahmedbenani
+        </a>
+        <a href="#" class="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-sm hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+            <i class="fas fa-envelope"></i> ahmed.benani@university.ma
+        </a>
     </div>
 
     <!-- Skills Section -->
-    <div class="skills-section">
-        <h2><i class="fas fa-code"></i> Technical Skills</h2>
-        <div class="skills-grid" id="skillsGrid">
-            <!-- Skills loaded dynamically -->
-        </div>
+    <div>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+            <i class="fas fa-code text-indigo-600"></i> Technical Skills
+        </h2>
+        <div class="flex flex-wrap gap-3" id="skillsGrid"></div>
     </div>
 
     <!-- Certifications Section -->
-    <div class="certifications-section">
-        <h2><i class="fas fa-certificate"></i> Certifications</h2>
-        <div class="certifications-grid" id="certificationsGrid">
-            <!-- Certifications loaded dynamically -->
-        </div>
+    <div>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+            <i class="fas fa-certificate text-indigo-600"></i> Certifications
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="certificationsGrid"></div>
     </div>
 
     <!-- Projects Section -->
-    <div class="projects-section">
-        <h2><i class="fas fa-folder-open"></i> Completed Projects</h2>
-        <div class="projects-grid" id="projectsGrid">
-            <!-- Projects loaded dynamically -->
-        </div>
+    <div>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+            <i class="fas fa-folder-open text-indigo-600"></i> Completed Projects
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6" id="projectsGrid"></div>
     </div>
 
-    <!-- Share Portfolio Modal -->
-    <div id="shareModal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Share Your Portfolio</h3>
-                <button class="modal-close" onclick="closeShareModal()">&times;</button>
+    <!-- Share Modal -->
+    <div id="shareModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl w-[90%] max-w-md border border-gray-200 dark:border-gray-700">
+            <div class="flex justify-between items-center p-5 border-b border-gray-200 dark:border-gray-700">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Share Your Portfolio</h3>
+                <button onclick="closeShareModal()" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 text-2xl">&times;</button>
             </div>
-            <div class="modal-body">
-                <p>Share this link with employers or collaborators:</p>
-                <div class="share-link">
-                    <input type="text" id="shareLink" value="https://gradproject.com/portfolio/ahmed-benani" readonly>
-                    <button onclick="copyLink()"><i class="fas fa-copy"></i> Copy</button>
+            <div class="p-5">
+                <p class="text-sm text-gray-600 dark:text-gray-300 mb-3">Share this link with employers or collaborators:</p>
+                <div class="flex gap-2 mb-4">
+                    <input type="text" id="shareLink" value="https://gradproject.com/portfolio/ahmed-benani" readonly class="flex-1 p-2 bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-white">
+                    <button onclick="copyLink()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700 transition-colors">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
                 </div>
-                <div class="share-options">
-                    <p>Or share directly:</p>
-                    <div class="social-share">
-                        <button onclick="shareOnLinkedIn()" class="share-btn linkedin"><i class="fab fa-linkedin"></i> LinkedIn</button>
-                        <button onclick="shareOnTwitter()" class="share-btn twitter"><i class="fab fa-twitter"></i> Twitter</button>
-                        <button onclick="downloadPDF()" class="share-btn pdf"><i class="fas fa-file-pdf"></i> Download PDF</button>
-                    </div>
+                <p class="text-sm text-gray-600 dark:text-gray-300 mb-3">Or share directly:</p>
+                <div class="flex gap-3">
+                    <button onclick="shareOnLinkedIn()" class="flex-1 py-2 bg-[#0077b5] text-white rounded-lg text-sm flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+                        <i class="fab fa-linkedin"></i> LinkedIn
+                    </button>
+                    <button onclick="shareOnTwitter()" class="flex-1 py-2 bg-[#1da1f2] text-white rounded-lg text-sm flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+                        <i class="fab fa-twitter"></i> Twitter
+                    </button>
+                    <button onclick="downloadPDF()" class="flex-1 py-2 bg-red-600 text-white rounded-lg text-sm flex items-center justify-center gap-2 hover:bg-red-700 transition-colors">
+                        <i class="fas fa-file-pdf"></i> PDF
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-@push('styles')
-<style>
-    .portfolio-container {
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-
-    /* Profile Header */
-    .profile-header {
-        display: flex;
-        gap: 32px;
-        background: var(--bg-secondary);
-        border: 1px solid var(--border);
-        border-radius: 24px;
-        padding: 32px;
-        margin-bottom: 24px;
-    }
-
-    .profile-avatar {
-        text-align: center;
-    }
-
-    .avatar-large {
-        width: 120px;
-        height: 120px;
-        background: linear-gradient(135deg, var(--primary), #7209b7);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 42px;
-        font-weight: 600;
-        color: white;
-        margin-bottom: 16px;
-    }
-
-    .btn-share {
-        background: var(--bg-primary);
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 8px 16px;
-        font-size: 13px;
-        cursor: pointer;
-        transition: all 0.2s;
-        width: 100%;
-    }
-
-    .btn-share:hover {
-        background: var(--primary-light);
-        border-color: var(--primary);
-        color: var(--primary);
-    }
-
-    .profile-info h1 {
-        font-size: 28px;
-        font-weight: 700;
-        margin-bottom: 8px;
-    }
-
-    .student-title {
-        font-size: 16px;
-        color: var(--primary);
-        margin-bottom: 4px;
-    }
-
-    .student-university {
-        font-size: 14px;
-        color: var(--text-secondary);
-        margin-bottom: 20px;
-    }
-
-    .profile-stats {
-        display: flex;
-        gap: 32px;
-    }
-
-    .stat {
-        text-align: center;
-    }
-
-    .stat-number {
-        display: block;
-        font-size: 24px;
-        font-weight: 700;
-        color: var(--text-primary);
-    }
-
-    .stat-label {
-        font-size: 12px;
-        color: var(--text-secondary);
-    }
-
-    /* Social Links */
-    .social-links {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 16px;
-        margin-bottom: 32px;
-        padding: 16px 24px;
-        background: var(--bg-secondary);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-    }
-
-    .social-link {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        color: var(--text-secondary);
-        text-decoration: none;
-        font-size: 13px;
-        transition: color 0.2s;
-    }
-
-    .social-link:hover {
-        color: var(--primary);
-    }
-
-    /* Skills Section */
-    .skills-section, .certifications-section, .projects-section {
-        margin-bottom: 40px;
-    }
-
-    .skills-section h2, .certifications-section h2, .projects-section h2 {
-        font-size: 20px;
-        font-weight: 600;
-        margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .skills-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-    }
-
-    .skill-card {
-        background: var(--bg-secondary);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 12px 20px;
-        text-align: center;
-        transition: all 0.2s;
-    }
-
-    .skill-card:hover {
-        border-color: var(--primary);
-        transform: translateY(-2px);
-    }
-
-    .skill-name {
-        font-weight: 600;
-        margin-bottom: 4px;
-    }
-
-    .skill-level {
-        font-size: 11px;
-        color: var(--text-secondary);
-    }
-
-    .skill-badge {
-        display: inline-block;
-        padding: 4px 8px;
-        border-radius: 6px;
-        font-size: 10px;
-        font-weight: 500;
-        margin-top: 6px;
-    }
-
-    .level-expert { background: #e8f5e9; color: #2e7d32; }
-    .level-proficient { background: #e3f2fd; color: #1565c0; }
-    .level-practitioner { background: #fff3e0; color: #ed6c02; }
-    .level-learner { background: #f3e5f5; color: #7b1fa2; }
-
-    [data-theme="dark"] .level-expert { background: #1a3a1a; color: #4caf50; }
-    [data-theme="dark"] .level-proficient { background: #0d2b3e; color: #42a5f5; }
-    [data-theme="dark"] .level-practitioner { background: #3a2a1a; color: #ffa726; }
-    [data-theme="dark"] .level-learner { background: #2a1a3e; color: #ce93d8; }
-
-    /* Certifications Grid */
-    .certifications-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 16px;
-    }
-
-    .cert-card {
-        display: flex;
-        gap: 16px;
-        padding: 16px;
-        background: var(--bg-secondary);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        transition: all 0.2s;
-    }
-
-    .cert-card:hover {
-        border-color: var(--primary);
-        transform: translateY(-2px);
-    }
-
-    .cert-icon {
-        width: 48px;
-        height: 48px;
-        background: var(--primary-light);
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 24px;
-    }
-
-    .cert-info h4 {
-        font-size: 16px;
-        font-weight: 600;
-        margin-bottom: 4px;
-    }
-
-    .cert-info p {
-        font-size: 12px;
-        color: var(--text-secondary);
-    }
-
-    /* Projects Grid */
-    .projects-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-        gap: 24px;
-    }
-
-    .project-card {
-        background: var(--bg-secondary);
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        overflow: hidden;
-        transition: all 0.3s;
-    }
-
-    .project-card:hover {
-        transform: translateY(-4px);
-        box-shadow: var(--card-shadow);
-        border-color: var(--primary-light);
-    }
-
-    .project-header {
-        padding: 16px 20px;
-        background: var(--bg-primary);
-        border-bottom: 1px solid var(--border);
-    }
-
-    .project-category {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 4px 10px;
-        background: var(--primary-light);
-        color: var(--primary);
-        border-radius: 20px;
-        font-size: 11px;
-        font-weight: 600;
-    }
-
-    .project-body {
-        padding: 20px;
-    }
-
-    .project-title {
-        font-size: 18px;
-        font-weight: 600;
-        margin-bottom: 12px;
-        color: var(--text-primary);
-    }
-
-    .project-description {
-        font-size: 13px;
-        color: var(--text-secondary);
-        line-height: 1.5;
-        margin-bottom: 16px;
-    }
-
-    .project-meta {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 16px;
-        padding-bottom: 16px;
-        border-bottom: 1px solid var(--border);
-    }
-
-    .project-entity {
-        font-size: 12px;
-        color: var(--text-secondary);
-    }
-
-    .project-rating {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        background: #ffc10720;
-        padding: 4px 8px;
-        border-radius: 20px;
-    }
-
-    .project-rating i {
-        color: #ffc107;
-        font-size: 12px;
-    }
-
-    .rating-value {
-        font-weight: 600;
-        font-size: 13px;
-    }
-
-    .project-review {
-        background: var(--bg-primary);
-        padding: 12px;
-        border-radius: 12px;
-        margin-bottom: 16px;
-        font-size: 12px;
-        color: var(--text-secondary);
-        font-style: italic;
-    }
-
-    .badges {
-        display: flex;
-        gap: 8px;
-        margin-bottom: 16px;
-        flex-wrap: wrap;
-    }
-
-    .badge {
-        padding: 4px 12px;
-        border-radius: 20px;
-        font-size: 11px;
-        font-weight: 500;
-    }
-
-    .badge-ai { background: #e8eaf6; color: #3949ab; }
-    .badge-impact { background: #e0f2fe; color: #0284c7; }
-    .badge-fast { background: #ecfdf5; color: #059669; }
-    .badge-collab { background: #fef3c7; color: #d97706; }
-
-    [data-theme="dark"] .badge-ai { background: #1a237e20; color: #7986cb; }
-    [data-theme="dark"] .badge-impact { background: #0c4a6e20; color: #38bdf8; }
-    [data-theme="dark"] .badge-fast { background: #064e3b20; color: #34d399; }
-    [data-theme="dark"] .badge-collab { background: #78350f20; color: #fbbf24; }
-
-    .btn-view-project {
-        width: 100%;
-        padding: 10px;
-        background: transparent;
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        color: var(--primary);
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-
-    .btn-view-project:hover {
-        background: var(--primary-light);
-        border-color: var(--primary);
-    }
-
-    /* Modal */
-    .modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-    }
-
-    .modal-content {
-        background: var(--bg-secondary);
-        border-radius: 20px;
-        width: 90%;
-        max-width: 500px;
-        border: 1px solid var(--border);
-    }
-
-    .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px;
-        border-bottom: 1px solid var(--border);
-    }
-
-    .modal-close {
-        background: none;
-        border: none;
-        font-size: 24px;
-        cursor: pointer;
-        color: var(--text-secondary);
-    }
-
-    .modal-body {
-        padding: 20px;
-    }
-
-    .share-link {
-        display: flex;
-        gap: 8px;
-        margin: 16px 0;
-    }
-
-    .share-link input {
-        flex: 1;
-        padding: 10px;
-        background: var(--bg-primary);
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        color: var(--text-primary);
-    }
-
-    .share-link button {
-        padding: 10px 20px;
-        background: var(--primary);
-        border: none;
-        border-radius: 8px;
-        color: white;
-        cursor: pointer;
-    }
-
-    .social-share {
-        display: flex;
-        gap: 12px;
-        margin-top: 16px;
-    }
-
-    .share-btn {
-        flex: 1;
-        padding: 10px;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 13px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-    }
-
-    .share-btn.linkedin { background: #0077b5; color: white; }
-    .share-btn.twitter { background: #1da1f2; color: white; }
-    .share-btn.pdf { background: #dc3545; color: white; }
-
-    @media (max-width: 768px) {
-        .profile-header {
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-        
-        .profile-stats {
-            justify-content: center;
-        }
-        
-        .projects-grid {
-            grid-template-columns: 1fr;
-        }
-        
-        .certifications-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-</style>
-@endpush
+@endsection
 
 @push('scripts')
 <script>
@@ -589,10 +129,10 @@
 
     // Mock Certifications Data
     const certificationsData = [
-        { name: "Google Data Analytics", issuer: "Google", date: "2025", icon: "fa-google" },
-        { name: "IBM Machine Learning", issuer: "IBM", date: "2025", icon: "fa-brands fa-ibm" },
-        { name: "Microsoft Power BI", issuer: "Microsoft", date: "2024", icon: "fa-microsoft" },
-        { name: "Deep Learning Specialization", issuer: "DeepLearning.AI", date: "2025", icon: "fa-brain" }
+        { name: "Google Data Analytics", issuer: "Google", date: "2025", icon: "fa-google", brand: true },
+        { name: "IBM Machine Learning", issuer: "IBM", date: "2025", icon: "fa-ibm", brand: true },
+        { name: "Microsoft Power BI", issuer: "Microsoft", date: "2024", icon: "fa-microsoft", brand: true },
+        { name: "Deep Learning Specialization", issuer: "DeepLearning.AI", date: "2025", icon: "fa-brain", brand: false }
     ];
 
     // Mock Projects Data
@@ -659,14 +199,34 @@
         }
     ];
 
+    // Get level classes
+    function getLevelClass(level) {
+        const classes = {
+            expert: 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400',
+            proficient: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400',
+            practitioner: 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400',
+            learner: 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400'
+        };
+        return classes[level] || classes.learner;
+    }
+
+    // Get badge class
+    function getBadgeClass(badge) {
+        if (badge.includes('AI') || badge.includes('🤖')) return 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300';
+        if (badge.includes('Impact') || badge.includes('🏅')) return 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300';
+        if (badge.includes('Fast') || badge.includes('⚡')) return 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300';
+        if (badge.includes('Collaborative') || badge.includes('🤝')) return 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300';
+        return 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300';
+    }
+
     // Render Skills
     function renderSkills() {
         const skillsGrid = document.getElementById('skillsGrid');
         skillsGrid.innerHTML = skillsData.map(skill => `
-            <div class="skill-card">
-                <div class="skill-name">${skill.name}</div>
-                <div class="skill-level">${skill.text}</div>
-                <span class="skill-badge level-${skill.level}">${skill.text}</span>
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-5 py-3 text-center hover:border-indigo-400 dark:hover:border-indigo-500 transition-all hover:-translate-y-0.5">
+                <div class="font-semibold text-gray-900 dark:text-white">${skill.name}</div>
+                <div class="text-xs text-gray-500 dark:text-gray-400 mb-1">${skill.text}</div>
+                <span class="inline-block text-[10px] font-medium px-2 py-0.5 rounded ${getLevelClass(skill.level)}">${skill.text}</span>
             </div>
         `).join('');
     }
@@ -675,13 +235,13 @@
     function renderCertifications() {
         const certsGrid = document.getElementById('certificationsGrid');
         certsGrid.innerHTML = certificationsData.map(cert => `
-            <div class="cert-card">
-                <div class="cert-icon">
-                    <i class="fab ${cert.icon}"></i>
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 flex gap-4 hover:border-indigo-400 dark:hover:border-indigo-500 transition-all hover:-translate-y-0.5">
+                <div class="w-12 h-12 bg-indigo-50 dark:bg-indigo-900/30 rounded-xl flex items-center justify-center text-indigo-600 dark:text-indigo-400 text-2xl">
+                    <i class="${cert.brand ? 'fab' : 'fas'} ${cert.icon}"></i>
                 </div>
-                <div class="cert-info">
-                    <h4>${cert.name}</h4>
-                    <p>${cert.issuer} • ${cert.date}</p>
+                <div>
+                    <h4 class="font-semibold text-gray-900 dark:text-white">${cert.name}</h4>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">${cert.issuer} • ${cert.date}</p>
                 </div>
             </div>
         `).join('');
@@ -691,31 +251,35 @@
     function renderProjects() {
         const projectsGrid = document.getElementById('projectsGrid');
         projectsGrid.innerHTML = portfolioProjectsData.map(project => `
-            <div class="project-card">
-                <div class="project-header">
-                    <span class="project-category">
-                        <i class="fas ${project.category_icon}"></i>
-                        ${project.category}
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden hover:shadow-lg transition-all hover:-translate-y-1">
+                <div class="px-5 py-3 bg-gray-50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-700">
+                    <span class="inline-flex items-center gap-1.5 px-2 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded-full text-[11px] font-semibold">
+                        <i class="fas ${project.category_icon} text-xs"></i> ${project.category}
                     </span>
                 </div>
-                <div class="project-body">
-                    <h3 class="project-title">${project.title}</h3>
-                    <p class="project-description">${project.description}</p>
-                    <div class="project-meta">
-                        <span class="project-entity"><i class="fas fa-building"></i> ${project.entity}</span>
-                        <span class="project-rating">
-                            <i class="fas fa-star"></i>
-                            <span class="rating-value">${project.rating}</span>
+                <div class="p-5">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">${project.title}</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">${project.description}</p>
+                    
+                    <div class="flex justify-between items-center mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
+                        <span class="text-xs text-gray-500 dark:text-gray-400"><i class="fas fa-building mr-1"></i> ${project.entity}</span>
+                        <span class="flex items-center gap-1 bg-yellow-100/50 dark:bg-yellow-900/30 px-2 py-1 rounded-full">
+                            <i class="fas fa-star text-yellow-500 text-xs"></i>
+                            <span class="font-semibold text-sm">${project.rating}</span>
                         </span>
                     </div>
-                    <div class="badges">
-                        ${project.badges.map(badge => `<span class="badge">${badge}</span>`).join('')}
+                    
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        ${project.badges.map(badge => `<span class="text-[11px] font-medium px-2 py-1 rounded-full ${getBadgeClass(badge)}">${badge}</span>`).join('')}
                     </div>
-                    <div class="project-review">
-                        <i class="fas fa-quote-left"></i> ${project.review}
+                    
+                    <div class="bg-gray-50 dark:bg-gray-900/50 p-3 rounded-xl mb-4">
+                        <i class="fas fa-quote-left text-gray-400 text-xs mr-1"></i>
+                        <span class="text-xs text-gray-500 dark:text-gray-400 italic">${project.review}</span>
                     </div>
-                    <button class="btn-view-project" onclick="viewProject(${project.id})">
-                        View Details <i class="fas fa-arrow-right"></i>
+                    
+                    <button onclick="viewProject(${project.id})" class="w-full py-2 border border-gray-200 dark:border-gray-700 rounded-xl text-indigo-600 dark:text-indigo-400 font-medium text-sm hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:border-indigo-400 transition-all">
+                        View Details <i class="fas fa-arrow-right ml-1 text-xs"></i>
                     </button>
                 </div>
             </div>
@@ -729,11 +293,11 @@
     }
 
     function sharePortfolio() {
-        document.getElementById('shareModal').style.display = 'flex';
+        document.getElementById('shareModal').classList.remove('hidden');
     }
 
     function closeShareModal() {
-        document.getElementById('shareModal').style.display = 'none';
+        document.getElementById('shareModal').classList.add('hidden');
     }
 
     function copyLink() {
